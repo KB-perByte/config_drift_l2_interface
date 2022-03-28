@@ -29,8 +29,8 @@
   - name: Apply infrastructure config
     ios_config:
       src: "{{ playbook_dir }}/interfaces.cfg"
-      replace: config
+      # replace: config
       backup: yes
-      when:
-        - ansible_network_os == 'ios'
+      # when:
+      #   - ansible_network_os == 'ios'
     check_mode: True
