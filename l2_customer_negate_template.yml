@@ -28,7 +28,7 @@
 
   - name: Apply infrastructure config
     ios_config:
-      src: interfaces.config
+      src: "{{ playbook_dir }}/interfaces.cfg"
       replace: config
       backup: yes
       when:
