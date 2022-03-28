@@ -3,7 +3,7 @@
     command: show running-config | section ^interface
     parser:
       name: ansible.netcommon.native
-      template_path: "{{ playbook_dir }}/roles/config_drift_l2_interface/templates/checkTemplates.yml"
+      template_path: "{{ playbook_dir }}/roles/config_drift_l2_interface/templates/generate_structure.yml"
     set_fact: interfaces
 
 - name: Generate IOS Config
@@ -12,7 +12,7 @@
     dest: "{{ item.dest }}"
     mode: 0777
   with_items:
-    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interface/templates/l2_tmplt.j2",dest: 'interfaces.cfg'}
+    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interface/templates/l2_config_template.j2",dest: 'interfaces.cfg'}
 
 - name: Apply infrastructure config
   ios_config:

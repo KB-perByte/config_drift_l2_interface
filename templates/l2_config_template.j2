@@ -2,6 +2,6 @@ configure terminal
 {% for key, item in interfaces.items() %}
 interface {{ item.name }}
 {% if item.template is defined %}
-    no source template {{ item.template }}
+no source template {{ item.template }}
 {% endif %}
 {% endfor %}
