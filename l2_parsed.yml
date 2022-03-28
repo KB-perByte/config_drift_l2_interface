@@ -1,0 +1,11 @@
+---
+- name: l2 interface PARSED state
+  hosts: selfxe
+  gather_facts: no
+  tasks:
+  - name: parsed play
+    cisco.ios.l2_interfaces:
+      running_config: "{{ lookup('file', 'l2_parsed.cfg') }}"
+      state: parsed
+    register: some_data
+    # check_mode: yes

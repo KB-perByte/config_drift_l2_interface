@@ -1,0 +1,30 @@
+# ansible-navigator run l2_customer_sot_use.yml --mode stdout --ee false -vvvv
+
+
+- name: l2_interface use gathered facts to apply configuration
+  hosts: iosl2lab_switch
+  gather_facts: false
+
+  tasks:
+  - name: set interface facts from file
+    set_fact:
+      intf_config: "{{ ((lookup('file','{{ playbook_dir }}/vars/dev1/intf.yml')) | from_yaml) }}"
+
+  - name: update interface configuration
+    cisco.ios.interfaces:
+      config: "{{ item.parsed }}"
+      state: replaced
+    loop: "{{ intf_config.results }}"
+    check_mode: True
+
+  - name: set l2 facts from file
+    set_fact:
+      l2_config: "{{ ((lookup('file','{{ playbook_dir }}/vars/dev1/l2.yml')) | from_yaml) }}"
+
+  - name: update l2_interface configuration
+    cisco.ios.l2_interfaces:
+      config: "{{ item.parsed }}"
+      state: replaced
+    loop: "{{ l2_config.results }}"
+    check_mode: True
+

@@ -1,0 +1,7 @@
+configure terminal
+{% for item in interfaces %}
+  interface {{ item.name }}
+{% if item.template is defined %}
+    no source template {{ item.template }}
+{% endif %}
+{% endfor %}

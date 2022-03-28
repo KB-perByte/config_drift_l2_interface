@@ -1,0 +1,36 @@
+# ansible-navigator run l2_customer_negate_template.yml --mode stdout --ee false -vvvv
+
+- name: l2_interface negate templates
+  hosts: iosl2lab_switch
+  gather_facts: false
+
+  tasks:
+  # - name: Fetch derived config data
+  #   cisco.ios.ios_command:
+  #     commands: show running-config | section ^interface
+  #   register: running_config
+
+  - name: Run command and parse
+    ansible.utils.cli_parse:
+      command: show running-config | section ^interface
+      parser:
+        name: ansible.netcommon.native
+        template_path: "{{ playbook_dir }}/templates/checkTemplates.yml"
+      set_fact: interfaces
+
+  - name: Generate IOS Config
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: 0777
+    with_items:
+      - {src: "{{ playbook_dir }}/l2_tmplt.j2",dest: 'interfaces.cfg'}
+
+  - name: Apply infrastructure config
+    ios_config:
+      src: interfaces.config
+      replace: config
+      backup: yes
+      when:
+        - ansible_network_os == 'ios'
+    check_mode: True
