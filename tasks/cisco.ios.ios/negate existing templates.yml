@@ -1,0 +1,24 @@
+- name: Run command and parse
+  ansible.utils.cli_parse:
+    command: show running-config | section ^interface
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/config_drift_l2_interface/templates/checkTemplates.yml"
+    set_fact: interfaces
+
+- name: Generate IOS Config
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0777
+  with_items:
+    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interface/templates/l2_tmplt.j2",dest: 'interfaces.cfg'}
+
+- name: Apply infrastructure config
+  ios_config:
+    src: "{{ playbook_dir }}/interfaces.cfg"
+    # replace: config
+    backup: yes
+    # when:
+    #   - ansible_network_os == 'ios'
+  check_mode: True
