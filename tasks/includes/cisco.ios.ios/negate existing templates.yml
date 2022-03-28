@@ -7,18 +7,15 @@
     set_fact: interfaces
 
 - name: Generate IOS Config
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0777
   with_items:
-    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/l2_config_template.j2",dest: 'interfaces.cfg'}
+    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/l2_config_template.j2", dest: 'interfaces.cfg'}
 
 - name: Apply infrastructure config
-  ios_config:
+  cisco.ios.ios_config:
     src: "{{ playbook_dir }}/interfaces.cfg"
-    # replace: config
-    backup: yes
-    # when:
-    #   - ansible_network_os == 'ios'
-  check_mode: True
+    # backup: true
+  check_mode: true

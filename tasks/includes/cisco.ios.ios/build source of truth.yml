@@ -11,9 +11,10 @@
   register: intf_data
 
 - name: Store raw interface derived config
-  copy:
+  ansible.builtin.copy:
     content: "{{ intf_data | to_nice_yaml }}"
     dest: "{{ playbook_dir }}/vars/intf.yml"
+    mode: 0644
 
 - name: Parsed l2_interface information
   cisco.ios.l2_interfaces:
@@ -23,6 +24,7 @@
   register: l2_data
 
 - name: Store raw l2 derived config
-  copy:
+  ansible.builtin.copy:
     content: "{{ l2_data | to_nice_yaml }}"
     dest: "{{ playbook_dir }}/vars/l2.yml"
+    mode: 0644

@@ -17,11 +17,12 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 ## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+
 ```
   tasks:
   - name: Run the demo role build SOT
     ansible.builtin.include_role: &ref_role
-      name: config_drift_l2_interface
+      name: config_drift_l2_interfaces
     vars:
       action: build source of truth
 

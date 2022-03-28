@@ -1,5 +1,5 @@
 - name: set interface facts from file
-  set_fact:
+  ansible.builtin.set_fact:
     intf_config: "{{ ((lookup('file','{{ playbook_dir }}/vars/intf.yml')) | from_yaml) }}"
 
 - name: update interface configuration
@@ -7,10 +7,10 @@
     config: "{{ item.parsed }}"
     state: replaced
   loop: "{{ intf_config.results }}"
-  check_mode: True
+  check_mode: true
 
 - name: set l2 facts from file
-  set_fact:
+  ansible.builtin.set_fact:
     l2_config: "{{ ((lookup('file','{{ playbook_dir }}/vars/l2.yml')) | from_yaml) }}"
 
 - name: update l2_interface configuration
@@ -18,5 +18,4 @@
     config: "{{ item.parsed }}"
     state: replaced
   loop: "{{ l2_config.results }}"
-  check_mode: True
-
+  check_mode: true
