@@ -13,7 +13,7 @@
 - name: Store raw interface derived config
   copy:
     content: "{{ intf_data | to_nice_yaml }}"
-    dest: "{{ playbook_dir }}/vars/dev1/intf.yml"
+    dest: "{{ playbook_dir }}/vars/intf.yml"
 
 - name: Parsed l2_interface information
   cisco.ios.l2_interfaces:
@@ -25,4 +25,4 @@
 - name: Store raw l2 derived config
   copy:
     content: "{{ l2_data | to_nice_yaml }}"
-    dest: "{{ playbook_dir }}/vars/dev1/l2.yml"
+    dest: "{{ playbook_dir }}/vars/l2.yml"
