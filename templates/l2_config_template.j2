@@ -1,7 +1,6 @@
-configure terminal
-{% for key, item in interfaces.items() %}
+{% for key, item in config_data.items() %}
 {% if item.template is defined %}
-interface {{ item.name }}
+interf {{ key }}
 no source template {{ item.template }}
 {% endif %}
 {% endfor %}

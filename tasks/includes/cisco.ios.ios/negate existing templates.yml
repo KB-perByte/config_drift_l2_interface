@@ -4,7 +4,7 @@
     parser:
       name: ansible.netcommon.native
       template_path: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/generate_structure.yml"
-    set_fact: interfaces
+    set_fact: config_data
 
 - name: Generate IOS Config
   ansible.builtin.template:
@@ -12,10 +12,10 @@
     dest: "{{ item.dest }}"
     mode: 0777
   with_items:
-    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/l2_config_template.j2", dest: 'interfaces.cfg'}
+    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/l2_config_template.j2", dest: 'interfaces_config.cfg'}
 
 - name: Apply infrastructure config
   cisco.ios.ios_config:
-    src: "{{ playbook_dir }}/interfaces.cfg"
+    src: "{{ playbook_dir }}/interfaces_config.cfg"
     # backup: true
   check_mode: true
