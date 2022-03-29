@@ -12,10 +12,13 @@
     dest: "{{ item.dest }}"
     mode: 0777
   with_items:
-    - {src: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/l2_config_template.j2", dest: '{{ playbook_dir }}/vars/interfaces_config.cfg'}
+    - {
+        src: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/l2_config_template.j2",
+        dest: "{{ playbook_dir }}/vars/interfaces_config.cfg",
+      }
 
 - name: Negate template configuration per interface
   cisco.ios.ios_config:
     src: "{{ playbook_dir }}/vars/interfaces_config.cfg"
     # backup: true
-  check_mode: true
+  # check_mode: true
