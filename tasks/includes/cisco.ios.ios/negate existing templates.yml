@@ -1,4 +1,4 @@
-- name: Run command and parse
+- name: Parse running-config data to collect source template information
   ansible.utils.cli_parse:
     command: show running-config | section ^interface
     parser:
@@ -6,7 +6,7 @@
       template_path: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/generate_structure.yml"
     set_fact: config_data
 
-- name: Generate IOS Config
+- name: Generate config lines to negate templates
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -14,7 +14,7 @@
   with_items:
     - {src: "{{ playbook_dir }}/roles/config_drift_l2_interfaces/templates/l2_config_template.j2", dest: 'interfaces_config.cfg'}
 
-- name: Apply infrastructure config
+- name: Negate template configuration per interface
   cisco.ios.ios_config:
     src: "{{ playbook_dir }}/interfaces_config.cfg"
     # backup: true
