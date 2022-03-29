@@ -5,13 +5,19 @@ Helps migrating on box l2 & interface configuration from on box templates based 
 
 ## Execution steps
 
+### part 1
+
 - Fetching `derived-config` configuration.
 - Feed it to the parsed state of ios.interfaces and ios.l2_interfaces resource module.
 - Store the source of truth generated in corresponding yaml files.
 
+### part 2
+
 - Identify the interfaces using templates using with `running-config`.
 - Generate a template based configuration for the interfaces using templates.
 - Negate the templates per interface using the config generated.
+
+### part 3
 
 - Apply back the configuration with ios.interfaces and ios.l2_interfaces resource module.
 
